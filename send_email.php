@@ -1,16 +1,22 @@
 <?php
-if(isset($_POST['submit'])) {
-    $to = "rachana.thanneeru@gmail.com";
-    $subject = "Contact Form Submission";
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $message = $_POST['message'];
-    $headers = "From: $name <$email>";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get form data
+    $name = trim($_POST["name"]);
+    $email = trim($_POST["email"]);
+    $message = trim($_POST["message"]);
 
-    if(mail($to, $subject, $message, $headers)) {
-        echo "Email sent successfully.";
+    // Email parameters
+    $to = "rachana.thanneeru@gmail.com"; // Change this to your email address
+    $subject = "Contact Form Submission";
+    $body = "Name: $name\nEmail: $email\nMessage:\n$message";
+
+    // Send email
+    if (mail($to, $subject, $body)) {
+        echo "Your message has been sent successfully.";
     } else {
-        echo "Error sending email.";
+        echo "Error: Unable to send message.";
     }
+} else {
+    echo "Error: Invalid request.";
 }
 ?>
